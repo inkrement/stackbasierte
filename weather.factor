@@ -2,7 +2,7 @@
 
 ! http://api.openweathermap.org/data/2.5/weather?q=Vienna
 
-USING: kernel http.client sequences ;
+USING: assocs kernel http.client sequences prettyprint json.reader ;
 IN: weather
 
 CONSTANT: fixed-url-part "http://api.openweathermap.org/data/2.5/weather?q="
@@ -10,7 +10,16 @@ CONSTANT: fixed-url-part "http://api.openweathermap.org/data/2.5/weather?q="
 
 : get-http-data ( url -- data ) http-get nip ;
 : url ( str -- str ) fixed-url-part swap append ;
+: get-value ( hsh str -- str ) swap at* drop ;
 
+! von wien holen
 "Vienna" url get-http-data
 
-drop
+! json string in hashtable umwandeln
+json>
+
+! temperatur auslesen
+"main" get-value "temp" get-value
+
+
+.
