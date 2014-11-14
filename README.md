@@ -1,5 +1,8 @@
 # Stackbasierte Sprachen
-Sudoku Solver in [Factor](http://factorcode.org/)
+Simple Weatherstation implemented in the stack-based language [Factor](http://factorcode.org/).
+
+## Getting Started
+After the factor directory has been added to the `PATH` variable, run the script with `./factor weather.factor`.
 
 ## Factor Tutorials
 * [Factor Handbook](http://docs.factorcode.org/content/article-handbook.html)
