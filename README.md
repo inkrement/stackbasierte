@@ -7,6 +7,7 @@ After the factor directory has been added to the `PATH` variable, run the script
 ## Factor Tutorials
 * [Factor Handbook](http://docs.factorcode.org/content/article-handbook.html)
 * [Beginning Factor](http://elasticdog.com/2008/11/beginning-factor-introduction/)
+* [Factor compared with forth and postscript](http://hyperpolyglot.org/stack)
 
 ## Team
 * Christian Hotz-Behofsits
