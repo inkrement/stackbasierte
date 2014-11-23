@@ -2,7 +2,7 @@
 
 ! http://api.openweathermap.org/data/2.5/weather?q=Vienna
 
-USING: assocs kernel http.client sequences prettyprint json.reader math formatting classes.tuple ; 
+USING: assocs kernel math.functions http.client sequences prettyprint json.reader math formatting classes.tuple ; 
 IN: weather
 
 CONSTANT: fixed-url-part "http://api.openweathermap.org/data/2.5/weather?q="
@@ -43,12 +43,23 @@ TUPLE: weatherstation location temperature avgtemperature ;
 
 
 ! calculate sum of 10 values
-"Vienna" get-weather-list [ "main" get-value "temp" get-value ] each 9 [ + ] times
+! "Vienna" get-weather-list [ "main" get-value "temp" get-value ] each 9 [ + ] times
 
 : kelvin-to-celsius ( x -- y ) 
     #! Helper word for converting a temperature value
     #! in Kelvin to a temperature value in celsius
     273.25 - ;
+
+: two-decimal-round ( x -- x )
+    100 * round 100 / ;
+
+
+: calculate-temp ( city -- avg-temp )
+    #! Helper to get avg temperature in format #.##
+    get-weather-list [ "main" get-value "temp" get-value ] map 
+    dup length swap sum swap / 
+    kelvin-to-celsius 
+    two-decimal-round ;
 
 ! : weather. ( weather -- )
 !    #! Helper word for printing weather informations
@@ -56,15 +67,6 @@ TUPLE: weatherstation location temperature avgtemperature ;
 !    "Temperature in %s: %s (Average: %s)\n" printf
 !    pprint "Temperatur in C: " ;
 
-! calculate avg
-10 /
+! .
 
-! kelvin to celsius
-kelvin-to-celsius
-
-! von wien holen
-! "Vienna" get-weather
-
-.
-
-clear
+! clear
