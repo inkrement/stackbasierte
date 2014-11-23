@@ -1,5 +1,7 @@
 # Stackbasierte Sprachen
 Simple Weatherstation implemented in the stack-based language [Factor](http://factorcode.org/).
+Load weather.factor into the scratchpad and calculate average of an indivdual city by calling the word calculate-temp.
+For example: `"Vienna" calculate-temp`
 
 ## Getting Started
 After the factor directory has been added to the `PATH` variable, run the script with `./factor weather.factor`.
