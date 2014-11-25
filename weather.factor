@@ -32,18 +32,10 @@ TUPLE: weatherstation location temperature avgtemperature ;
 : url_h ( str -- str ) 
     fixed-url-part-history swap append ;
 
-! : parse-hist-weather ( hsh -- ... ) "list" get-value [ "main" get-value "temp" get-value ] each ;
-! : calc-sum ( hsh -- x ) "list" get-value [ "main" get-value "temp" get-value ] each 9 [ + ] times ;
-
 : get-weather-list ( str -- hsh ) 
     url_h get-http-data json> 
     "list" get-value ;
 
-! : get-hist-weather ( str -- n ) get-weather-list calc-sum ;
-
-
-! calculate sum of 10 values
-! "Vienna" get-weather-list [ "main" get-value "temp" get-value ] each 9 [ + ] times
 
 : kelvin-to-celsius ( x -- y ) 
     #! Helper word for converting a temperature value
@@ -61,12 +53,8 @@ TUPLE: weatherstation location temperature avgtemperature ;
     kelvin-to-celsius 
     two-decimal-round ;
 
-! : weather. ( weather -- )
-!    #! Helper word for printing weather informations
-!    [ location>> ] [ temperature>> ] [ avgtemperature>> ] tri
-!    "Temperature in %s: %s (Average: %s)\n" printf
-!    pprint "Temperatur in C: " ;
 
-! .
 
-! clear
+"Vienna" calculate-temp
+
+.
