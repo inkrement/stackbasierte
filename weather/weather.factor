@@ -1,7 +1,14 @@
 USING: assocs kernel math.functions http.client sequences prettyprint json.reader math formatting classes.tuple ; 
 IN: weather
 
-CONSTANT: fixed-url-part-history "http://api.openweathermap.org/data/2.5/history/city?type=day&q="
+CONSTANT: fixed-openweather "http://api.openweathermap.org/data"
+CONSTANT: fixed-history "/2.5/history/city?type=day&q="
+CONSTANT: fixed-act "/2.5/weather?q="
+
+SYMBOLS: K C ;
+! SYMBOL: temp-unit
+! : convert_to_kelvin? ( temp-unit -- ? )
+!    temp-unit get temp-unit<=> +lt+ = not ;
 
 ! Tuple which represents the weather data informations
 TUPLE: weatherstation location temperature avgtemperature ;
@@ -10,8 +17,13 @@ TUPLE: weatherstation location temperature avgtemperature ;
 : get-http-data ( url -- data ) 
     http-get nip ;
 
-: url_h ( str -- str ) 
-    fixed-url-part-history swap append ;
+! reverse string concatenation
+: concat_rev ( str str -- str )
+    swap append ;
+
+! weather api specific url generation
+: url_h ( str -- str ) fixed-openweather fixed-history append concat_rev ;
+: url_a ( str -- str ) fixed-openweather fixed-act append concat_rev ;
 
 ! parse JSON
 : get-value ( hsh str -- str ) 
@@ -25,21 +37,25 @@ TUPLE: weatherstation location temperature avgtemperature ;
     "main" get-value 
     "temp" get-value ;
 
-: kelvin-to-celsius ( x -- y ) 
-    ! Helper word for converting a temperature value
-    ! in Kelvin to a temperature value in celsius
-    273.15 - ;
-
 : two-decimal-round ( x -- x )
     100 * round 100 / ;
+
+: kelvin-to-celsius ( x -- x ) 
+    ! Helper word for converting a temperature value
+    ! in Kelvin to a temperature value in celsius
+    273.15 - 
+    two-decimal-round ;
 
 : calculate-temp ( city -- avg-temp )
     ! Helper to get avg temperature in format #.##
     get-weather-list [ parse-weather ] map 
     dup length swap sum swap / 
-    kelvin-to-celsius 
-    two-decimal-round ;
+    kelvin-to-celsius ;
 
-: weather-demo ( -- ) "Vienna" calculate-temp . ;
+: get-act-weather ( x -- x )
+    url_a get-http-data json> parse-weather ;
 
-MAIN: weather-demo
+: weather-demo ( -- ) C "Vienna" get-act-weather kelvin-to-celsius pprint . ;
+: weather-hist-demo ( -- ) "Vienna" calculate-temp  C swap pprint . ;
+
+MAIN: weather-hist-demo
