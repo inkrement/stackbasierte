@@ -28,7 +28,7 @@ TUPLE: weatherstation location temperature avgtemperature ;
 : kelvin-to-celsius ( x -- y ) 
     ! Helper word for converting a temperature value
     ! in Kelvin to a temperature value in celsius
-    273.25 - ;
+    273.15 - ;
 
 : two-decimal-round ( x -- x )
     100 * round 100 / ;
