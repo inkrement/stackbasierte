@@ -6,9 +6,6 @@ CONSTANT: fixed-history "/2.5/history/city?type=day&q="
 CONSTANT: fixed-act "/2.5/weather?q="
 
 SYMBOLS: K C ;
-! SYMBOL: temp-unit
-! : convert_to_kelvin? ( temp-unit -- ? )
-!    temp-unit get temp-unit<=> +lt+ = not ;
 
 ! Tuple which represents the weather data informations
 TUPLE: weatherstation location temperature avgtemperature ;
