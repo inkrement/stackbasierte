@@ -1,5 +1,3 @@
-#!/usr/bin/env factor -script
-
 USING: assocs kernel math.functions http.client sequences prettyprint json.reader math formatting classes.tuple ; 
 IN: weather
 
@@ -42,6 +40,6 @@ TUPLE: weatherstation location temperature avgtemperature ;
     kelvin-to-celsius 
     two-decimal-round ;
 
-"Vienna" calculate-temp
+: weather-demo ( -- ) "Vienna" calculate-temp . ;
 
-.
+MAIN: weather-demo
